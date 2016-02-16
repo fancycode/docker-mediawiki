@@ -3,6 +3,16 @@ MAINTAINER Joachim Bauch <mail@joachim-bauch.de>
 
 # Inspired by https://github.com/synctree/docker-mediawiki/
 
+# Break build cache
+ARG build_timestamp=undefined
+RUN echo "Built on ${build_timestamp}" | tee /build.time
+
+RUN set -x; \
+    apt-get update \
+    && apt-get upgrade -y --no-install-recommends \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV MEDIAWIKI_VERSION 1.26
 ENV MEDIAWIKI_FULL_VERSION 1.26.2
 
